@@ -43,8 +43,10 @@ public class CreditCardValidator {
                 
                 sumEven=sumOfEvenDigit(number);
                 sumOdd=sumOfOddDigit(number);
+                result=((sumEven+sumOdd)%10 == 0);
 
             }
+        return result;
 
 
 
