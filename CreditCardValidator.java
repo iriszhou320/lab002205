@@ -40,6 +40,9 @@ public class CreditCardValidator {
             if(getPrefix(number,4)|| getPrefix(number,5) || getPrefix(number,6) || getPrefix(number,36))
             //now check the sum
             {
+                
+                sumEven=sumOfEvenDigit(number);
+                sumOdd=sumOfOddDigit(number);
 
             }
 
@@ -59,6 +62,14 @@ public class CreditCardValidator {
     //get size function
     private static int getSize(long number){
        return Long.toString(number).length();
+    }
+     //calculate the sum od even digit
+    private static int sumOfEvenDigit(long number){
+
+    }
+    //calculate the sum of odd digit
+    private static int sumOfOddDigit(long number){
+        
     }
 
 }
