@@ -13,57 +13,98 @@ public class PalindromicPrime {
      *
      * @return Non-{@code null} iterator to get palindrome prime numbers.
      */
-    public static void main(String[] args){
-        int counter = 0;
-        int number = 2;//initialize variables
-        String result= "";//the number to be printed out
+    public static void main(String[] args) {
+        //Not sure if this line is correct or not
+        Iterator<Integer> primeIter = new PalindromeIterator();
 
-        while(counter <= 1000000){
-          if(findPrime(number) && findPalin(number)) {//ask if the number is prime or palindrome
-
+        while (true) {
+            if (primeIter.hasNext()) {
+                System.out.print(primeIter.next() + "\t");
+            }
+            else {
+                break;
+            }
+        }
     }
-}
-//iterator
-        //public Iterator<Integer> palindromeIterator() {
-        // private static class InnerClass implements Interator<Integer>{
 
-        //  public boolean hasNext(){
-        //    return false;
-        //   }
+    //iterator
+    public static class PalindromeIterator implements Iterator<Integer> {
 
-        //   public int next(){
-        //      return 0;}
-        //    public void remove(){
-        //     throw new UnsupportedOperationException("");
-        //    }
-        //  }
-        //  return null;
+        int size = 100000;
+        boolean[] isPrime = new boolean[size];
 
-//find if the number is prime
-    private boolean findPrime(int num){
-        if(num%2 == 0)//to check if the number is even, if it is(except 2)then not prime
-            return false;
-        for(int divisor=3; divisor*divisor<=num; divisor+=2){//just to check the odds
-                if(num%divisor == 0)
-                    return false;
+        int index = 1;
+
+        int numPrimesPrinted = 0;
+
+        //constructor to assign all the value to true
+        public PalindromeIterator(){
+            isPrime[0] = false;//0+1 is not prime
+            //initial all the value true
+            for (int i = 1; i < size; i++) {
+                isPrime[i] = true;
+            }
+        }
+
+        //find if the number is palindrome
+        private boolean checkPalin(int num) {
+            //declare and initialize variables
+            int result = 0;
+            int number = num;
+            //reverse the num
+            while (num != 0) {
+                int lastDigit = num % 10;
+                result = result * 10 + lastDigit;
+                num /= 10;
+            }
+
+            if (number == result)
+                return true;
+            else
+                return false;
+        }
+
+        //check if the number is prime
+        private boolean checkPrime(int num) {
+            for (int divisor = 2; 2* divisor <= num; divisor ++) { //just to check the odds
+                if (num % divisor == 0)
+                return false;
             }
             return true;
         }
-    //find if the number is palindrome
-    private boolean findPalin(int num){
-          //declare and initialize variables
-        int result = 0;
-        int number = num;
-        //reverse the num
-        while(num != 0){
-            int lastDigit = num%10;
-            result=result*10+lastDigit;
-            num/=10;
+
+        //override functions
+        @Override
+        public boolean hasNext() {
+            while (index < size) {
+                index++;
+                if (checkPalin(index) && checkPrime(index)) {
+                    numPrimesPrinted++;
+                    return true;
+                }
+
+            }
+           return false;
+
         }
-        if(number == result)
-            return true;
+
+        @Override
+        public Integer next() {
+            if(numPrimesPrinted % 10 ==0){
+                System.out.println();
+            }
+            return index;
         }
-        return false;
-}
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("");
+        }
+
+
+
+    }
 
 }
+
+
